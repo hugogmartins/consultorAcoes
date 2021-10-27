@@ -2,6 +2,7 @@ public class Cotacao {
     String id;
     String data;
     double valor;
+
     public Cotacao(String linha)
     {
         String[] dados = linha.split(";");
