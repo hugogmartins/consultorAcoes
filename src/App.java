@@ -6,6 +6,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         FilaDinamica conjuntoCotacoes = lerDadosParaFilaDinamica("Cotacoes.txt");
         ListaDinamica conjuntoCompras = lerDadosParaListaDinamica("CompraAcoes_1.txt");
+        ABB conjuntoInvestidores = lerDadosParaArvoreBinaria("Investidores_2021-2.txt");
 
         Scanner teclado = new Scanner(System.in);
 
@@ -61,6 +62,10 @@ public class App {
 
                 case 5:
                 limparTela();
+                System.out.println(conjuntoInvestidores.impressao(conjuntoInvestidores));
+                
+                case 6:
+                limparTela();
                 opcao = 0;
                 break;
             }
@@ -108,13 +113,32 @@ public class App {
         return conjuntoCompras;
     }
 
+    static ABB lerDadosParaArvoreBinaria(String caminho) throws FileNotFoundException
+    {
+        File dados = new File(caminho);
+        Scanner leitor = new Scanner(dados);
+        Investidor novo = new Investidor(leitor.nextLine());
+
+        ABB arvore = new ABB(novo);
+
+        while(leitor.hasNextLine())
+        {
+            novo = new Investidor(leitor.nextLine());
+            arvore.inserir(novo, arvore);
+        }
+
+        leitor.close();
+        return arvore;
+    }
+
     public static int menu(Scanner teclado)
     {
         System.out.println("1 - Adicionar cotação");
         System.out.println("2 - Adicionar compra");
         System.out.println("3 - Imprimir cotações");
         System.out.println("4 - Imprimir compras");
-        System.out.println("5 - Sair");
+        System.out.println("5 - Imprimir investidores");
+        System.out.println("6 - Sair");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }
