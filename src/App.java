@@ -139,13 +139,17 @@ public class App {
 
     static void insercaoComprasInvestidores(ListaDinamica comprasGerais, ABB investidores)
     {
-        ElementoCompra aux = comprasGerais.sentinela.proximo;
-        Investidor busca;
-        while(aux != null)
+        ElementoCompra auxCompra = comprasGerais.sentinela.proximo;
+        Investidor busca = new Investidor(auxCompra.dados.cpf + ";Mock;0;0");
+        Investidor auxInvestidor;
+        while(auxCompra != null)
         {
-            Investidor mock = new Investidor(aux.dados.cpf + ";Mock;0;0");
-            busca = investidores.buscar(mock, investidores);
-            busca.compras.inserir(aux.dados);
+            busca.cpf = auxCompra.dados.cpf;
+            auxInvestidor = investidores.buscar(busca, investidores);
+            if(auxInvestidor != null){
+                auxInvestidor.compras.inserir(auxCompra.dados);
+            }
+            auxCompra = auxCompra.proximo;
         }
     }
 
