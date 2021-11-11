@@ -155,4 +155,19 @@ public class ABB {
             return aux;
         }
     }
+
+    public String impressaoInvestidorCompras(ABB subarvore)
+    {
+        if(subarvore == null)
+        {
+            return "";
+        }
+        else
+        {
+            String aux = impressao(subarvore.subarvoreEsquerda);
+            aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n" + subarvore.raiz.dados.compras.imprimir() + "\n" + "===========================================";
+            aux += impressao(subarvore.subarvoreDireita);
+            return aux;
+        }
+    }
 }

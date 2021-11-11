@@ -7,6 +7,7 @@ public class App {
         FilaDinamica conjuntoCotacoes = lerDadosParaFilaDinamica("Cotacoes.txt");
         ListaDinamica conjuntoCompras = lerDadosParaListaDinamica("CompraAcoes_1.txt");
         ABB conjuntoInvestidores = lerDadosParaArvoreBinaria("Investidores_2021-2.txt");
+        insercaoComprasInvestidores(conjuntoCompras, conjuntoInvestidores);
 
         Scanner teclado = new Scanner(System.in);
 
@@ -63,8 +64,13 @@ public class App {
                 case 5:
                 limparTela();
                 System.out.println(conjuntoInvestidores.impressao(conjuntoInvestidores));
-                
+
                 case 6:
+                limparTela();
+                System.out.println(conjuntoInvestidores.impressaoInvestidorCompras(conjuntoInvestidores));
+                break;
+                
+                case 7:
                 limparTela();
                 opcao = 0;
                 break;
@@ -131,6 +137,18 @@ public class App {
         return arvore;
     }
 
+    static void insercaoComprasInvestidores(ListaDinamica comprasGerais, ABB investidores)
+    {
+        ElementoCompra aux = comprasGerais.sentinela.proximo;
+        Investidor busca;
+        while(aux != null)
+        {
+            Investidor mock = new Investidor(aux.dados.cpf + ";Mock;0;0");
+            busca = investidores.buscar(mock, investidores);
+            busca.compras.inserir(aux.dados);
+        }
+    }
+
     public static int menu(Scanner teclado)
     {
         System.out.println("1 - Adicionar cotação");
@@ -138,7 +156,8 @@ public class App {
         System.out.println("3 - Imprimir cotações");
         System.out.println("4 - Imprimir compras");
         System.out.println("5 - Imprimir investidores");
-        System.out.println("6 - Sair");
+        System.out.println("6 - Imprimir listas de compras dos investidores");
+        System.out.println("7 - Sair");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }

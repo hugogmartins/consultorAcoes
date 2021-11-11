@@ -29,7 +29,7 @@ public class ListaDinamica {
         ElementoCompra aux2 = sentinela.proximo;
         while(aux2 != null)
         {
-            if(aux2.dados.token == procura)
+            if(aux2.dados.cpf == Long.parseLong(procura))
             {
                 aux1.proximo = aux2.proximo;
                 aux2.proximo = null;
@@ -50,9 +50,9 @@ public class ListaDinamica {
         ElementoCompra aux = sentinela.proximo;
         while(aux != null)
         {
-            if(aux.dados.token == procura)
+            if(aux.dados.cpf == Long.parseLong(procura))
             {
-                String dados = "CÓDIGO: " + aux.dados.codigo + " | TOKEN: " + aux.dados.token + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor;
+                String dados = "CÓDIGO: " + aux.dados.codigo + " | TOKEN: " + aux.dados.cpf + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor;
                 return dados;
             }
             aux = aux.proximo;
@@ -71,7 +71,7 @@ public class ListaDinamica {
         dados.append("========IMPRESSÃO========\n");
         while(aux != null)
         {
-            dados.append("CÓDIGO: " + aux.dados.codigo + " | TOKEN: " + aux.dados.token + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor +"\n");
+            dados.append("CÓDIGO: " + aux.dados.codigo + " | CPF: " + aux.dados.cpf + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor +"\n");
             aux = aux.proximo;
         }
         dados.append("========================");
