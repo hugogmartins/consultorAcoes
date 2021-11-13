@@ -43,7 +43,7 @@ public class ABB {
         {
             if(quem.ehIgual(subarvore.raiz.dados))
             {
-                return raiz.dados;
+                return subarvore.raiz.dados;
             }
             else
             {
@@ -152,6 +152,22 @@ public class ABB {
             String aux = impressao(subarvore.subarvoreEsquerda);
             aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n";
             aux += impressao(subarvore.subarvoreDireita);
+            return aux;
+        }
+    }
+
+    public String impressaoInvestidorCompras(ABB subarvore)
+    {
+        if(subarvore == null)
+        {
+            return "";
+        }
+        else
+        {
+            String aux = impressaoInvestidorCompras(subarvore.subarvoreEsquerda);
+            aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n" + subarvore.raiz.dados.compras.imprimir() +
+             "\n" + "===========================================";
+            aux += impressaoInvestidorCompras(subarvore.subarvoreDireita);
             return aux;
         }
     }

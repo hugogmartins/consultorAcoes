@@ -1,6 +1,6 @@
 public class Compra {
     String codigo;
-    String token;
+    long cpf;
     String data;
     double valor;
 
@@ -8,7 +8,7 @@ public class Compra {
     {
         String [] linhaTratada = linha.split(";");
         codigo = linhaTratada[0];
-        token = linhaTratada[1];
+        cpf = Long.parseLong(linhaTratada[1].replace("-", ""));
         data = linhaTratada[2];
         valor = Double.parseDouble(linhaTratada[3]);
     }
