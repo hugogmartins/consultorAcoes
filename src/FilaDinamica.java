@@ -36,6 +36,16 @@ public class FilaDinamica {
         return aux.dados;
     }
 
+    public Cotacao buscar(String busca)
+    {
+        Elemento aux = primeiro.prox;
+        while(aux.dados.id != busca && aux != null)
+        {
+            aux = aux.prox;
+        }
+        return aux.dados;
+    }
+
     public String imprimir()
     {
         if(filaVazia())

@@ -29,7 +29,7 @@ public class ListaDinamica {
         ElementoCompra aux2 = sentinela.proximo;
         while(aux2 != null)
         {
-            if(aux2.dados.cpf == Long.parseLong(procura))
+            if(aux2.dados.codigo == procura)
             {
                 aux1.proximo = aux2.proximo;
                 aux2.proximo = null;
@@ -41,23 +41,25 @@ public class ListaDinamica {
         return null;
     }
 
-    public String buscar(String procura)
+    public Compra buscar(String procura)
     {
         if(listaVazia())
         {
-            return "Dados inexistente";
+            System.out.println("LISTA VAZIA");
+            return null;
         }
         ElementoCompra aux = sentinela.proximo;
         while(aux != null)
         {
             if(aux.dados.cpf == Long.parseLong(procura))
             {
-                String dados = "CÓDIGO: " + aux.dados.codigo + " | TOKEN: " + aux.dados.cpf + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor;
+                Compra dados = aux.dados;
                 return dados;
             }
             aux = aux.proximo;
         }
-        return "Dados inexistente";
+        System.out.println("DADOS NÃO ENCONTRADOS");
+        return null;
     }
 
     public String imprimir()
@@ -66,12 +68,11 @@ public class ListaDinamica {
         StringBuilder dados = new StringBuilder();
         if(listaVazia())
         {
-            return "========LISTA VAZIA========";
+            return "";
         }
-        dados.append("========IMPRESSÃO========\n");
         while(aux != null)
         {
-            dados.append("CÓDIGO: " + aux.dados.codigo + " | CPF: " + aux.dados.cpf + " | DATA: " + aux.dados.data + " | VALOR: " + aux.dados.valor +"\n");
+            dados.append("CÓDIGO: " + aux.dados.codigo +  " | DATA: " + aux.dados.data + " | QUANTIDADE: " + aux.dados.qtde +"\n");
             aux = aux.proximo;
         }
         dados.append("========================");

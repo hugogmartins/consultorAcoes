@@ -2,7 +2,7 @@ public class Compra {
     String codigo;
     long cpf;
     String data;
-    double valor;
+    int qtde;
 
     public Compra(String linha)
     {
@@ -10,6 +10,15 @@ public class Compra {
         codigo = linhaTratada[0];
         cpf = Long.parseLong(linhaTratada[1].replace("-", ""));
         data = linhaTratada[2];
-        valor = Double.parseDouble(linhaTratada[3]);
+        qtde = Integer.parseInt(linhaTratada[3]);
     }
+
+    public void imprimir()
+    {
+        System.out.println("CÓDIGO: " + this.codigo);
+        System.out.println("DATA: " + this.data);
+        System.out.println("QUANTIDADE: " + this.qtde);
+    }
+
+    //resultado
 }

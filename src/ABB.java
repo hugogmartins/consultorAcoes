@@ -36,6 +36,7 @@ public class ABB {
     {
         if(subarvore == null)
         {
+            System.out.println("INVESTIDOR NÃO ENCONTRADO");
             return null;
         }
 
@@ -99,6 +100,7 @@ public class ABB {
     {
         if(subarvore == null)
         {
+            System.out.println("INVESTIDOR NÃO ENCONTRADO");
             return null;
         }
         else
@@ -166,7 +168,7 @@ public class ABB {
         {
             String aux = impressaoInvestidorCompras(subarvore.subarvoreEsquerda);
             aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n" + subarvore.raiz.dados.compras.imprimir() +
-             "\n" + "===========================================";
+             "\n";
             aux += impressaoInvestidorCompras(subarvore.subarvoreDireita);
             return aux;
         }
