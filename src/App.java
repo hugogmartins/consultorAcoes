@@ -4,9 +4,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        FilaDinamica conjuntoCotacoes = lerDadosParaFilaDinamica("Cotacoes.txt");
+        ListaDinamicaAcoes conjuntoAcoes = lerDadosParaListaAcoes("acoes.txt");
         ABB conjuntoInvestidores = lerDadosParaArvoreBinaria("Investidores_2021-2.txt");
         lerDadosComprasListaInvestidores("CompraAcoes_1.txt", conjuntoInvestidores);
+        lerDadosCotacoesListaAcoes("Cotacoes.txt", conjuntoAcoes);
 
         Scanner teclado = new Scanner(System.in);
         int opcao;
@@ -16,9 +17,10 @@ public class App {
             opcao = menu(teclado);
             String auxiliar = "";
             Investidor auxiliarInvestidor;
-            Cotacao auxiliarCotacao;
             Compra auxiliarCompra;
             ABB auxiliarABB;
+            Cotacao auxiliarCotacao;
+            Acoes auxiliarAcao;
             switch(opcao)
             {
                 case 1:
@@ -30,9 +32,9 @@ public class App {
                     switch(opcao)
                     {
                         case 1:
-                        System.out.print("DIGITE O NOME: ");
-                        auxiliar += teclado.nextLine() + ";";
                         System.out.print("DIGITE O CPF: ");
+                        auxiliar += teclado.nextLine() + ";";
+                        System.out.print("DIGITE O NOME: ");
                         auxiliar += teclado.nextLine() + ";";
                         System.out.print("DIGITE O LOGIN: ");
                         auxiliar += teclado.nextLine() + ";";
@@ -40,17 +42,31 @@ public class App {
                         auxiliar += teclado.nextLine();
                         auxiliarInvestidor = new Investidor(auxiliar);
                         conjuntoInvestidores.inserir(auxiliarInvestidor, conjuntoInvestidores);
+                        System.out.println("INVESTIDOR CADASTRADO");
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 2:
-                        System.out.println("DIGITE O IDENTIFICADOR: ");
+                        System.out.println("DIGITE O CODIGO: ");
                         auxiliar += teclado.nextLine() + ";";
                         System.out.println("DIGITE A DATA: ");
                         auxiliar += teclado.nextLine() + ";";
                         System.out.println("DIGITE O VALOR: ");
                         auxiliar += teclado.nextLine();
                         auxiliarCotacao = new Cotacao(auxiliar);
-                        conjuntoCotacoes.enfileirar(auxiliarCotacao);
+                        auxiliarAcao = conjuntoAcoes.buscar(auxiliarCotacao.codigo);
+                        if(auxiliarAcao != null)
+                        {
+                            auxiliarAcao.cotacoes.inserir(auxiliarCotacao);
+                            System.out.println("COTACAO CADASTRADA");
+                        }
+                        else
+                        {
+                            System.out.println("ACAO NAO CADASTRADA");
+                        }
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 3:
@@ -58,7 +74,7 @@ public class App {
                         auxiliar += teclado.nextLine() + ";";
                         System.out.println("DIGITE O CPF: ");
                         auxiliar += teclado.nextLine() + ";";
-                        System.out.println("DIGITE O DATA: ");
+                        System.out.println("DIGITE A DATA: ");
                         auxiliar += teclado.nextLine() + ";";
                         System.out.println("DIGITE A QUANTIDADE: ");
                         auxiliar += teclado.nextLine();
@@ -67,21 +83,36 @@ public class App {
                         if(auxiliarInvestidor != null)
                         {
                             auxiliarInvestidor.compras.inserir(auxiliarCompra);
+                            System.out.println("COMPRA CADASTRADA");
                         }
                         else
                         {
                             System.out.println("INVESTIDOR NÃO CADASTRADO");
                         }
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 4:
+                        System.out.print("DIGITE O CODIGO: ");
+                        auxiliar += teclado.nextLine() + ";";
+                        System.out.print("DIGITE O NOME: ");
+                        auxiliar += teclado.nextLine();
+                        auxiliarAcao = new Acoes(auxiliar);
+                        conjuntoAcoes.inserir(auxiliarAcao);
+                        System.out.println("ACAO CADASTRADA");
+                        pausa(teclado);
+                        opcao = -1;
+                        break;
+
+                        case 5:
                         opcao = -1;
                         break;
 
                         default:
                         System.out.println("OPCAO INCORRETA");
-                        System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                        teclado.nextLine();
+                        pausa(teclado);
+                        opcao = -1;
                         break;
                     }
                 }
@@ -98,28 +129,47 @@ public class App {
                         System.out.println("DIGITE O CPF DO INVESTIDOR A SER REMOVIDO: ");
                         auxiliar = teclado.nextLine();
                         auxiliarInvestidor = new Investidor(auxiliar + ";Mock;0;0");
-                        auxiliarABB = conjuntoInvestidores.retirar(auxiliarInvestidor, conjuntoInvestidores);
-                        if(auxiliarABB != null)
+                        auxiliarInvestidor = conjuntoInvestidores.buscar(auxiliarInvestidor, conjuntoInvestidores);
+                        
+                        if(auxiliarInvestidor != null)
                         {
-                            auxiliarABB.raiz.dados.imprimir();
+                            conjuntoInvestidores.retirar(auxiliarInvestidor, conjuntoInvestidores);
+                            System.out.println("INVESTIDOR REMOVIDO");
+                            auxiliarInvestidor.imprimir();
                         }
-                        System.out.println("ENTER PARA CONTINUAR");
-                        teclado.nextLine();
+                        else
+                        {
+                            System.out.println("INVESTIDOR NAO CADASTRADO");
+                        }
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 2:
-                        System.out.println("A COTAÇÃO ESTÁ ORGANIZADA EM FILA");
-                        System.out.println("DESEJA REMOVER O PRIMEIRO ELEMENTO INSERIDO? ");
-                        System.out.println("1 - Sim");
-                        System.out.println("2 - Não");
-                        opcao = Integer.parseInt(teclado.nextLine());
-                        if(opcao == 1)
+                        System.out.println("DIGITE O CODIGO VINCULADO A COTACAO A SER REMOVIDA: ");
+                        auxiliar = teclado.nextLine();
+                        auxiliarAcao = conjuntoAcoes.buscar(auxiliar);
+                        if(auxiliarAcao != null)
                         {
-                            auxiliarCotacao = conjuntoCotacoes.desenfileirar();
-                            auxiliarCotacao.imprimir();
-                            System.out.println("COTAÇÃO REMOVIDA COM SUCESSO");
-                            teclado.nextLine();
+                            System.out.println("DIGITE A DATA VINCULADO A COTACAO A SER REMOVIDA: ");
+                            auxiliar = teclado.nextLine();
+                            auxiliarCotacao = auxiliarAcao.cotacoes.remover(auxiliar);
+                            if(auxiliarCotacao != null)
+                            {
+                                auxiliarCotacao.imprimir();
+                                System.out.println("COTACAO REMOVIDA");
+                            }
+                            else
+                            {
+                                System.out.println("COTACAO NAO CADASTRADA");
+                            }
                         }
+                        else
+                        {
+                            System.out.println("ACAO NAO CADASTRADA");
+                        }
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 3:
@@ -133,8 +183,8 @@ public class App {
                             auxiliarCompra = auxiliarInvestidor.compras.remover(auxiliar);
                             if(auxiliarCompra != null)
                             {
+                                System.out.println("COMPRA REMOVIDA");
                                 auxiliarCompra.imprimir();
-                                System.out.println("COMPRA REMOVIDA COM SUCESSO");
                             }
                             else
                             {
@@ -145,18 +195,35 @@ public class App {
                         {
                             System.out.println("INVESTIDOR NÃO CADASTRADO");
                         }
-                        System.out.println("ENTER PARA CONTINUAR");
-                        teclado.nextLine();
+                        pausa(teclado);
+                        opcao = -1;
                         break;
 
                         case 4:
+                        System.out.println("DIGITE O CODIGO DA ACAO A SER REMOVIDA: ");
+                        auxiliar = teclado.nextLine();
+                        auxiliarAcao = conjuntoAcoes.remover(auxiliar);
+                        if(auxiliarAcao != null)
+                        {
+                            System.out.println("ACAO REMOVIDA");
+                            auxiliarAcao.imprimir();
+                        }
+                        else
+                        {
+                            System.out.println("ACAO NAO CADASTRADA");
+                        }
+                        pausa(teclado);
+                        opcao = -1;
+                        break;
+
+                        case 5:
                         opcao = -1;
                         break;
 
                         default:
                         System.out.println("OPCAO INCORRETA");
-                        System.out.println("\nENTER PARA CONTINUAR");
-                        teclado.nextLine();
+                        pausa(teclado);
+                        opcao = 1;
                         break;
                     }
                 }
@@ -177,19 +244,34 @@ public class App {
                     {
                         auxiliarInvestidor.imprimir();
                     }
-                    System.out.println("ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 2:
-                    System.out.println("DIGITE O IDENTIFICADOR DA COTAÇÃO A SER BUSCADA: ");
+                    System.out.println("DIGITE O CODIGO VINCULADO A COTACAO A SER BUSCADA: ");
                     auxiliar = teclado.nextLine();
-                    auxiliarCotacao = conjuntoCotacoes.buscar(auxiliar);
-                    if(auxiliarCotacao != null)
+                    auxiliarAcao = conjuntoAcoes.buscar(auxiliar);
+                    if(auxiliarAcao != null)
                     {
-                        auxiliarCotacao.imprimir();
+                        System.out.println("DIGITE A DATA VINCULADO A COTACAO A SER BUSCADA: ");
+                        auxiliar = teclado.nextLine();
+                        auxiliarCotacao = auxiliarAcao.cotacoes.busca(auxiliar);
+                        if(auxiliarCotacao != null)
+                        {
+                            auxiliarCotacao.imprimir();
+                        }
+                        else
+                        {
+                            System.out.println("COTACAO NAO CADASTRADA");
+                        }
                     }
-                    System.out.println("ENTER PARA CONTINUAR");
+                    else
+                    {
+                        System.out.println("ACAO NAO CADASTRADA");
+                    }
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 3:
@@ -198,7 +280,7 @@ public class App {
                     auxiliarInvestidor = conjuntoInvestidores.buscar(new Investidor(auxiliar + ";Mock;0;0"), conjuntoInvestidores);
                     if(auxiliarInvestidor != null)
                     {
-                        System.out.println("DIGITE O CODIGO VINCULADO AO INESTIDOR A SER BUSCADO: ");
+                        System.out.println("DIGITE O CODIGO VINCULADO AO INVESTIDOR A SER BUSCADO: ");
                         auxiliar = teclado.nextLine();
                         auxiliarCompra = auxiliarInvestidor.compras.buscar(auxiliar);
                         if(auxiliarCompra != null)
@@ -207,25 +289,41 @@ public class App {
                         }
                         else
                         {
-                            System.out.println("COMPRA NÃO CADASTRADA");
+                            System.out.println("COMPRA NAO CADASTRADA");
                         }
                     }
                     else
                     {
-                        System.out.println("INVESTIDOR NÃO CADASTRADO");
+                        System.out.println("INVESTIDOR NAO CADASTRADO");
                     }
-                    System.out.println("ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 4:
+                    System.out.println("DIGITE O CODIGO DA ACAO A SER BUSCADA: ");
+                    auxiliar = teclado.nextLine();
+                    auxiliarAcao = conjuntoAcoes.buscar(auxiliar);
+                    if(auxiliarAcao != null)
+                    {
+                        auxiliarAcao.imprimir();
+                    }
+                    else
+                    {
+                        System.out.println("ACAO NAO CADASTRADA");
+                    }
+                    pausa(teclado);
+                    opcao = -1;
+                    break;
+
+                    case 5:
                     opcao = -1;
                     break;
 
                     default:
                     System.out.println("OPCAO INCORRETA");
-                    System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
                 }
                 break;
@@ -237,30 +335,36 @@ public class App {
                 {
                     case 1:
                     System.out.println(conjuntoInvestidores.impressao(conjuntoInvestidores));
-                    System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 2:
-                    System.out.println(conjuntoCotacoes.imprimir());
-                    System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    System.out.println(conjuntoAcoes.imprimirCotacoes());
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 3:
                     System.out.println(conjuntoInvestidores.impressaoInvestidorCompras(conjuntoInvestidores));
-                    System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
 
                     case 4:
+                    System.out.println(conjuntoAcoes.imprimir());
+                    pausa(teclado);
+                    opcao = -1;
+                    break;
+
+                    case 5:
                     opcao = -1;
                     break;
 
                     default:
                     System.out.println("OPCAO INCORRETA");
-                    System.out.println("\nAPERTE ENTER PARA CONTINUAR");
-                    teclado.nextLine();
+                    pausa(teclado);
+                    opcao = -1;
                     break;
                 }
                 break;
@@ -271,8 +375,7 @@ public class App {
 
                 default:
                 System.out.println("OPCAO INCORRETA");
-                System.out.println("\nENTER PARA CONTINUAR");
-                teclado.nextLine();
+                pausa(teclado);
                 break;
 
             }
@@ -286,21 +389,12 @@ public class App {
         System.out.flush();
     }
 
-    static FilaDinamica lerDadosParaFilaDinamica(String caminho) throws FileNotFoundException
+    public static void pausa(Scanner teclado)
     {
-        File arqDados = new File(caminho);
-        Scanner leitor = new Scanner(arqDados);
-        
-        FilaDinamica conjuntoCotacoes = new FilaDinamica();
 
-        while(leitor.hasNextLine())
-        {
-            String linha = leitor.nextLine();
-            Cotacao qual = new Cotacao(linha);
-            conjuntoCotacoes.enfileirar(qual);
-        }
-        leitor.close();
-        return conjuntoCotacoes;
+        System.out.println("\nENTER PARA CONTINUAR");
+        teclado.nextLine();
+
     }
 
     static ABB lerDadosParaArvoreBinaria(String caminho) throws FileNotFoundException
@@ -320,6 +414,23 @@ public class App {
         leitor.close();
         return arvore;
     }
+    
+    static void lerDadosCotacoesListaAcoes(String caminho, ListaDinamicaAcoes conjuntoAcoes) throws FileNotFoundException
+    {
+        File arqDados = new File(caminho);
+        Scanner leitor = new Scanner(arqDados);
+        while(leitor.hasNextLine())
+        {
+            String linha = leitor.nextLine();
+            Cotacao qual = new Cotacao(linha);
+            Acoes busca = conjuntoAcoes.buscar(qual.codigo);
+            if(busca != null)
+            {
+                busca.cotacoes.inserir(qual);
+            }
+        }
+        leitor.close();
+    }
 
     static void lerDadosComprasListaInvestidores(String caminho, ABB arvore) throws FileNotFoundException
     {
@@ -338,14 +449,29 @@ public class App {
         leitor.close();
     }
 
+    static ListaDinamicaAcoes lerDadosParaListaAcoes(String caminho) throws FileNotFoundException
+    {
+        File arq = new File(caminho);
+        Scanner leitor = new Scanner(arq);
+        ListaDinamicaAcoes conjuntoAcoes = new ListaDinamicaAcoes();
+        while(leitor.hasNextLine())
+        {
+            String linha = leitor.nextLine();
+            Acoes nova = new Acoes(linha);
+            conjuntoAcoes.inserir(nova);
+        }
+        leitor.close();
+        return conjuntoAcoes;
+    }
+
     public static int menu(Scanner teclado)
     {
         limparTela();
-        System.out.println("1 - Adicionar");
-        System.out.println("2 - Remover");
-        System.out.println("3 - Buscar");
-        System.out.println("4 - Imprimir Estrutura de Dados");
-        System.out.println("5 - Sair");
+        System.out.println("1 - ADICIONAR");
+        System.out.println("2 - REMOVER");
+        System.out.println("3 - BUSCAR");
+        System.out.println("4 - IMPRIMIR ESTRUTURA DE DADOS");
+        System.out.println("5 - SAIR");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }
@@ -353,10 +479,11 @@ public class App {
     public static int submenu(Scanner teclado)
     {
         limparTela();
-        System.out.println("1 - Investidor");
-        System.out.println("2 - Cotação");
-        System.out.println("3 - Compra");
-        System.out.println("4 - Sair");
+        System.out.println("1 - INVESTIDOR");
+        System.out.println("2 - COTACAO");
+        System.out.println("3 - COMPRA");
+        System.out.println("4 - ACAO");
+        System.out.println("5 - SAIR");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }

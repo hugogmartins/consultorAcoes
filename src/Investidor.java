@@ -5,7 +5,7 @@ public class Investidor {
     String nome;
     String login;
     String senha;
-    ListaDinamica compras;
+    ListaDinamicaCompra compras;
 
     public Investidor(String linha)
     {
@@ -14,7 +14,7 @@ public class Investidor {
         nome = linhaTratada[1];
         login = linhaTratada[2];
         senha = linhaTratada[3];
-        compras = new ListaDinamica();
+        compras = new ListaDinamicaCompra();
     }
 
     public boolean ehMenor(Investidor outro)
@@ -29,23 +29,9 @@ public class Investidor {
 
     public void imprimir()
     {
-        Scanner sc = new Scanner(System.in);
-        int escolha;
-        System.out.println("Nome: " + this.nome + "\nCPF: " + this.cpf + "\nLogin: " + this.login + "\nSenha: " + this.senha);
-        System.out.println("--------------------------");
-        System.out.println("IMPRIMIR COMPRAS?");
-        System.out.println("1.Sim");
-        System.out.println("1.Não");
-        escolha = Integer.parseInt(sc.nextLine());
-        switch(escolha)
-        {
-            case 1:
-            System.out.println(this.compras.imprimir());
-            case 2:
-            break;
-            default:
-            System.out.println("ESCOLHA NÃO ENCONTRADA");
-        }
-        sc.close();
+        System.out.println("NOME: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("LOGIN: " + this.login);
+        System.out.println("SENHA: " + this.senha);
     }
 }
