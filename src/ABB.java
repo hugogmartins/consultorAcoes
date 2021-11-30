@@ -130,11 +130,11 @@ public class ABB {
             {
                 if(quem.ehMenor(subarvore.raiz.dados))
                 {
-                    subarvore.subarvoreEsquerda = retirar(quem, subarvore.subarvoreEsquerda);
+                    subarvore.subarvoreEsquerda = subarvore.retirar(quem, subarvore.subarvoreEsquerda);
                 }
                 else
                 {
-                    subarvore.subarvoreDireita = retirar(quem, subarvore.subarvoreDireita);
+                    subarvore.subarvoreDireita = subarvore.retirar(quem, subarvore.subarvoreDireita);
                 }
                 return subarvore;
             }
@@ -150,7 +150,7 @@ public class ABB {
         else
         {
             String aux = impressao(subarvore.subarvoreEsquerda);
-            aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n";
+            aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + " | " + subarvore.raiz.dados.login + " | " + subarvore.raiz.dados.senha + "\n";
             aux += impressao(subarvore.subarvoreDireita);
             return aux;
         }
@@ -166,7 +166,7 @@ public class ABB {
         {
             String aux = impressaoInvestidorCompras(subarvore.subarvoreEsquerda);
             aux += subarvore.raiz.dados.cpf + " | " + subarvore.raiz.dados.nome + "\n" + subarvore.raiz.dados.compras.imprimir() +
-             "\n" + "===========================================";
+             "\n";
             aux += impressaoInvestidorCompras(subarvore.subarvoreDireita);
             return aux;
         }
