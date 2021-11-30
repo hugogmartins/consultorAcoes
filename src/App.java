@@ -18,7 +18,6 @@ public class App {
             String auxiliar = "";
             Investidor auxiliarInvestidor;
             Compra auxiliarCompra;
-            ABB auxiliarABB;
             Cotacao auxiliarCotacao;
             Acoes auxiliarAcao;
             switch(opcao)
@@ -329,6 +328,16 @@ public class App {
                 break;
 
                 case 4:
+                limparTela();
+                System.out.println("DIGITE O CPF DO INVESTIDOR A SER CONSULTADO: ");
+                auxiliar = teclado.nextLine();
+                
+                auxiliarInvestidor = conjuntoInvestidores.buscar(new Investidor(auxiliar + ";Mock;0;0"), conjuntoInvestidores);
+                System.out.println("NOME: " + auxiliarInvestidor.nome + "\nCPF: " + auxiliarInvestidor.cpf + "\nSALDO: R$" + auxiliarInvestidor.saldo(conjuntoAcoes));
+                pausa(teclado);
+                break;
+
+                case 5:
                 opcao = submenu(teclado);
                 limparTela();
                 switch(opcao)
@@ -369,7 +378,7 @@ public class App {
                 }
                 break;
 
-                case 5:
+                case 6:
                 opcao = 0;
                 break;
 
@@ -470,8 +479,9 @@ public class App {
         System.out.println("1 - ADICIONAR");
         System.out.println("2 - REMOVER");
         System.out.println("3 - BUSCAR");
-        System.out.println("4 - IMPRIMIR ESTRUTURA DE DADOS");
-        System.out.println("5 - SAIR");
+        System.out.println("4 - CONSULTAR SALDO");
+        System.out.println("5 - IMPRIMIR ESTRUTURA DE DADOS");
+        System.out.println("6 - SAIR");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }

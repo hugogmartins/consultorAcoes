@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.text.ParseException;
 
 public class Investidor {
     long cpf;
@@ -15,6 +15,27 @@ public class Investidor {
         login = linhaTratada[2];
         senha = linhaTratada[3];
         compras = new ListaDinamicaCompra();
+    }
+
+    public double saldo(ListaDinamicaAcoes dadosAcoes) throws ParseException
+    {
+        ElementoCompra auxCompra = this.compras.sentinela.proximo;
+        Double saldo = 0d;
+        while(auxCompra != null)
+        {
+            Acoes buscaAcao = dadosAcoes.buscar(auxCompra.dados.codigo);
+            if(buscaAcao != null)
+            {
+                Cotacao buscaCotacao = buscaAcao.cotacoes.busca(auxCompra.dados.data);
+                if(buscaCotacao != null)
+                {
+                    saldo -= auxCompra.dados.qtde * buscaCotacao.valor;
+                    saldo += auxCompra.dados.qtde * buscaAcao.ultima().valor;
+                }
+            }
+            auxCompra = auxCompra.proximo;
+        }
+        return saldo;
     }
 
     public boolean ehMenor(Investidor outro)

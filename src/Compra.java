@@ -19,6 +19,4 @@ public class Compra {
         System.out.println("DATA: " + this.data);
         System.out.println("QUANTIDADE: " + this.qtde);
     }
-
-    //resultado
 }
