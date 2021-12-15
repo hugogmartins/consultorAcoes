@@ -345,8 +345,13 @@ public class App {
                 case 5:
                 limparTela();
                 System.out.println("DIGITE A ACAO A SER PESQUISADA PARA O TOP10: ");
-                auxiliar = teclado.nextLine();
-                conjuntoAcoes.buscar(auxiliar).top10();
+                auxiliar = teclado.nextLine().toUpperCase();
+                if(conjuntoAcoes.buscar(auxiliar) != null){
+                    conjuntoAcoes.buscar(auxiliar).top10();
+                }
+                else{
+                    System.out.println("ACAO NAO ENCONTRADA");
+                }
                 pausa(teclado);
                 break;
 
@@ -430,7 +435,6 @@ public class App {
         while(leitor.hasNextLine())
         {
             novo = new Investidor(leitor.nextLine());
-            System.out.println(novo.cpf);
             arvore.inserir(novo, arvore);
         }
 

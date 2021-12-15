@@ -1,6 +1,6 @@
 public class Compra {
     String codigo;
-    long cpf;
+    String cpf;
     String data;
     int qtde;
 
@@ -8,7 +8,7 @@ public class Compra {
     {
         String [] linhaTratada = linha.split(";");
         codigo = linhaTratada[0];
-        cpf = Long.parseLong(linhaTratada[1].replace("-", ""));
+        cpf = linhaTratada[1];
         data = linhaTratada[2];
         qtde = Integer.parseInt(linhaTratada[3]);
     }

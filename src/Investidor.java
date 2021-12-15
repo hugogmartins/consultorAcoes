@@ -1,7 +1,7 @@
 import java.text.ParseException;
 
 public class Investidor {
-    long cpf;
+    String cpf;
     String nome;
     String login;
     String senha;
@@ -10,7 +10,7 @@ public class Investidor {
     public Investidor(String linha)
     {
         String[] linhaTratada = linha.split(";");
-        cpf = Long.parseLong(linhaTratada[0].replace("-", ""));
+        cpf = linhaTratada[0];
         nome = linhaTratada[1];
         login = linhaTratada[2];
         senha = linhaTratada[3];
@@ -40,12 +40,12 @@ public class Investidor {
 
     public boolean ehMenor(Investidor outro)
     {
-        return (cpf < outro.cpf);
+        return (Long.parseLong(cpf.replace("-", "")) < Long.parseLong(outro.cpf.replace("-", "")));
     }
 
     public boolean ehIgual(Investidor outro)
     {
-        return (cpf == outro.cpf);
+        return (cpf.replace("-", "").equals(outro.cpf.replace("-", "")));
     }
 
     public void imprimir()
