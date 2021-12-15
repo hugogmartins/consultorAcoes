@@ -1,18 +1,20 @@
 public class ABB {
     Nodo raiz;
-    ABB subarvoreDireita;//maior
-    ABB subarvoreEsquerda;//menor
+    ABB subarvoreDireita;
+    ABB subarvoreEsquerda;
+    int contador;
 
     public ABB(Investidor qual)
     {
         raiz = new Nodo(qual);
         subarvoreDireita = null;
         subarvoreEsquerda = null;
+        contador = 0;
     }
 
     public ABB inserir(Investidor novo, ABB subarvore)
     {
-        if(subarvore == null)//chegou no destino
+        if(subarvore == null)
         {
             ABB novaSubarvore = new ABB(novo);
             return novaSubarvore;
@@ -43,16 +45,19 @@ public class ABB {
         {
             if(quem.ehIgual(subarvore.raiz.dados))
             {
+                System.out.println("CONTADODR: " + contador);
                 return subarvore.raiz.dados;
             }
             else
             {
                 if(quem.ehMenor(subarvore.raiz.dados))
                 {
+                    this.contador++;
                     return buscar(quem, subarvore.subarvoreEsquerda);
                 }
                 else
                 {
+                    this.contador++;
                     return buscar(quem, subarvore.subarvoreDireita);
                 }
             }
@@ -61,22 +66,22 @@ public class ABB {
 
     public int grau()
     {
-        if(subarvoreEsquerda == null)
+        if(subarvoreDireita == null)
         {
-            if(subarvoreDireita == null)
+            if(subarvoreEsquerda == null)
             {
                 return 0;
             }
             else
             {
-                return 1;
+                return -1;
             }
         }
         else
         {
-            if(subarvoreDireita == null)
+            if(subarvoreEsquerda == null)
             {
-                return -1;
+                return 1;
             }
             else
             {

@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ListaDinamicaAcoes conjuntoAcoes = lerDadosParaListaAcoes("acoes.txt");
-        ABB conjuntoInvestidores = lerDadosParaArvoreBinaria("Investidores_2021-2.txt");
-        lerDadosComprasListaInvestidores("CompraAcoes_1.txt", conjuntoInvestidores);
-        lerDadosCotacoesListaAcoes("Cotacoes.txt", conjuntoAcoes);
+        ListaDinamicaAcoes conjuntoAcoes = lerDadosParaListaAcoes("dadosAcoes2021.txt");
+        ABB conjuntoInvestidores = lerDadosParaArvoreBinaria("dadosInvestidores2021.txt");
+        lerDadosComprasListaInvestidores("dadosCompraAcoes2020.txt", conjuntoInvestidores);
+        lerDadosCotacoesListaAcoes("dadosCotacoes2021.txt", conjuntoAcoes);
 
         Scanner teclado = new Scanner(System.in);
         int opcao;
@@ -69,7 +69,7 @@ public class App {
                         break;
 
                         case 3:
-                        System.out.println("DIGITE O CÓDIGO: ");
+                        System.out.println("DIGITE O CODIGO: ");
                         auxiliar += teclado.nextLine() + ";";
                         System.out.println("DIGITE O CPF: ");
                         auxiliar += teclado.nextLine() + ";";
@@ -86,7 +86,7 @@ public class App {
                         }
                         else
                         {
-                            System.out.println("INVESTIDOR NÃO CADASTRADO");
+                            System.out.println("INVESTIDOR NAO CADASTRADO");
                         }
                         pausa(teclado);
                         opcao = -1;
@@ -187,12 +187,12 @@ public class App {
                             }
                             else
                             {
-                                System.out.println("COMPRA NÃO CADASTRADA");
+                                System.out.println("COMPRA NAO CADASTRADA");
                             }
                         }
                         else
                         {
-                            System.out.println("INVESTIDOR NÃO CADASTRADO");
+                            System.out.println("INVESTIDOR NAO CADASTRADO");
                         }
                         pausa(teclado);
                         opcao = -1;
@@ -331,13 +331,31 @@ public class App {
                 limparTela();
                 System.out.println("DIGITE O CPF DO INVESTIDOR A SER CONSULTADO: ");
                 auxiliar = teclado.nextLine();
-                
                 auxiliarInvestidor = conjuntoInvestidores.buscar(new Investidor(auxiliar + ";Mock;0;0"), conjuntoInvestidores);
-                System.out.println("NOME: " + auxiliarInvestidor.nome + "\nCPF: " + auxiliarInvestidor.cpf + "\nSALDO: R$" + auxiliarInvestidor.saldo(conjuntoAcoes));
+                if(auxiliarInvestidor != null){
+                    System.out.println("NOME: " + auxiliarInvestidor.nome + "\nCPF: " + auxiliarInvestidor.cpf + "\nSALDO: R$" + auxiliarInvestidor.saldo(conjuntoAcoes));
+                    System.out.println(auxiliarInvestidor.compras.imprimir());
+                }
+                else{
+                    System.out.println("INVESTIDOR NAO ENCONTRADO");
+                }
                 pausa(teclado);
                 break;
 
                 case 5:
+                limparTela();
+                System.out.println("DIGITE A ACAO A SER PESQUISADA PARA O TOP10: ");
+                auxiliar = teclado.nextLine().toUpperCase();
+                if(conjuntoAcoes.buscar(auxiliar) != null){
+                    conjuntoAcoes.buscar(auxiliar).top10();
+                }
+                else{
+                    System.out.println("ACAO NAO ENCONTRADA");
+                }
+                pausa(teclado);
+                break;
+
+                case 6:
                 opcao = submenu(teclado);
                 limparTela();
                 switch(opcao)
@@ -378,7 +396,7 @@ public class App {
                 }
                 break;
 
-                case 6:
+                case 7:
                 opcao = 0;
                 break;
 
@@ -479,9 +497,10 @@ public class App {
         System.out.println("1 - ADICIONAR");
         System.out.println("2 - REMOVER");
         System.out.println("3 - BUSCAR");
-        System.out.println("4 - CONSULTAR SALDO");
-        System.out.println("5 - IMPRIMIR ESTRUTURA DE DADOS");
-        System.out.println("6 - SAIR");
+        System.out.println("4 - CARTEIRA");
+        System.out.println("5 - TOP 10 COTACOES");
+        System.out.println("6 - IMPRIMIR ESTRUTURA DE DADOS");
+        System.out.println("7 - SAIR");
         int resposta = Integer.parseInt(teclado.nextLine());
         return resposta;
     }

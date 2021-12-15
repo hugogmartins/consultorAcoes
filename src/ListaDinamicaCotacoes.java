@@ -46,7 +46,6 @@ public class ListaDinamicaCotacoes
     {
         if(listaVazia())
         {
-            System.out.println("LISTA VAZIA");
             return null;
         }
         ElementoCotacao aux = sentinela.prox;
